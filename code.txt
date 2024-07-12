@@ -1,0 +1,36 @@
+Code:
+
+// Define pin connections
+const int lightSensorPin = A0;
+const int ledPin = 11;
+void setup() {
+	// Initialize serial communication
+	Serial.begin(9600);
+	Serial.println("Setup initialized");
+	// Set LED pin as output
+	pinMode(ledPin, OUTPUT);
+}
+void loop() {
+	// Read the value from the light sensor
+	int lightLevel = analogRead(lightSensorPin);
+	// Print the light level to the serial monitor
+	Serial.print("Light level: ");
+	Serial.println(lightLevel);
+	// Check if light level is greater than 500
+	if (lightLevel > 500) {
+		// Turn off the LED
+		digitalWrite(ledPin, LOW);
+		Serial.println("LED turned off");
+	}
+	else {
+		// Map the light level to the PWM range (0-255)
+		int brightness = map(lightLevel, 0, 500, 255, 0);
+		// Print the brightness value to the serial monitor
+		Serial.print("Brightness: ");
+		Serial.println(brightness);
+		// Set the LED brightness
+		analogWrite(ledPin, brightness);
+	}
+	// Small delay to stabilize the readings
+	delay(100);
+}
